@@ -17,7 +17,16 @@ function Initialize(Plugin)
 	LOG("Initialised " .. Plugin:GetName() .. " v." .. Plugin:GetVersion())
 
 	-- Initialize Callback Functions
-	get_ip = function (Player)
+	worlds = function (cWorlds)
+		local var = cWorlds:DoWithPlayer(name[2], get_ip)
+		if 	var == nil then
+			return true
+		end
+		ip = var
+		return true
+	end
+
+	local get_ip = function (Player)
 		ip = Player:GetIP()
 		return ip
 	end
@@ -39,8 +48,6 @@ function cip_player (name, Player)
 		Player:SendMessage("Player " .. name[2] .. " not found :(")
 		return true
 	end
-	Player:SendMessage(string.sub(ip, 8))
-	return true
 end
 
 function cip_console (name)
@@ -48,7 +55,8 @@ function cip_console (name)
 		LOG("Usage: cip [playername]")
 		return true
 	end
-	cRoot:Get():FindAndDoWithPlayer(name[2], get_ip)
+	cRoot:Get():ForEachWorld(worlds)
+	-- cWorld = cRoot:Get():GetWorld("world")
 	if ip == nil then
 		LOG("Player " .. name[2] .. " not found :(")
 		return true
