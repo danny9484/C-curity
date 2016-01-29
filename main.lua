@@ -25,7 +25,7 @@ function OnDisable()
 	Player:SendMessage(PLUGIN:GetName() .. " is shutting down...")
 end
 
-function cip_player (name, Player)
+function cip_player(name, Player)
 	if (#name ~= 2) then
 		Player:SendMessage("Usage: cip [playername]")
 		return true
@@ -42,7 +42,7 @@ end
 function cget_ip(player_s)
 	local cget_ip_callback = function (Player)
 		ip = Player:GetIP()
-		return ip
+		return true
 	end
 	local worlds = function (cWorld)
 		cWorld:DoWithPlayer(player_s, cget_ip_callback)
@@ -53,27 +53,27 @@ function cget_ip(player_s)
 	return ip
 end
 
-function cip_list_player()
+function cip_list_player(Command, User)
 	local cget_ip_callback = function (Player)
 		playername = Player:GetName()
 		ip = Player:GetIP()
-		Player:SendMessage(playername .. " | " .. ip)
-		return ip
+		User:SendMessage(playername .. " | " .. string.sub(ip, 8))
 	end
 	cRoot:Get():ForEachPlayer(cget_ip_callback)
+	return true
 end
 
 function cip_list_console()
 	local cget_ip_callback = function (Player)
 		playername = Player:GetName()
 		ip = Player:GetIP()
-		LOG(playername .. " | " .. ip)
-		return ip
+		LOG(playername .. " | " .. string.sub(ip, 8))
 	end
 	cRoot:Get():ForEachPlayer(cget_ip_callback)
+	return true
 end
 
-function cip_console (name)
+function cip_console(name)
 	if (#name ~= 2) then
 		LOG("Usage: cip [playername]")
 		return true
