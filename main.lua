@@ -27,7 +27,7 @@ function Initialize(Plugin)
 end
 
 function OnDisable()
-	Player:SendMessage(PLUGIN:GetName() .. " is shutting down...")
+	LOG(PLUGIN:GetName() .. " is shutting down...")
 end
 
 function MyOnPlayerSpawned(Player)
